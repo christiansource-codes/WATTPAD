@@ -1,0 +1,69 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Reading - Tales & Books Shelf</title>
+    <link rel="stylesheet" href="style.css">
+</head>
+<body class="reading-page">
+
+    <header class="story-page-header">
+        <button id="theme-toggle" aria-label="Toggle dark/light mode">Toggle Dark/Light Mode</button>
+    </header>
+
+    <main class="story-container">
+        <a href="index.html" class="back-btn">← Back to Books</a>
+
+        <div class="story-header">
+            <img id="story-cover" src="" alt="Book cover" class="story-cover">
+            <div class="story-meta">
+                <h1 id="story-title"></h1>
+                <p id="story-author" class="author"></p>
+                <p id="story-genre" class="genre"></p>
+            </div>
+        </div>
+
+        <article class="story-content">
+            <h2 id="chapter-title"></h2>
+            <div id="story-text"></div>
+        </article>
+
+        <a href="index.html" class="back-btn bottom-back">← Back to Books</a>
+    </main>
+
+    <footer>
+        <p>&copy; 2026 Storybook Reader App. All rights reserved.</p>
+    </footer>
+
+    <script src="script.js"></script>
+    <script>
+        document.addEventListener('DOMContentLoaded', () => {
+            // Get the book id from the URL (e.g. story.html?id=5)
+            const params = new URLSearchParams(window.location.search);
+            const id = parseInt(params.get('id'), 10);
+
+            const book = books.find(b => b.id === id);
+
+            if (!book) {
+                document.querySelector('.story-container').innerHTML = `
+                    <a href="index.html" class="back-btn">← Back to Books</a>
+                    <h1>Story not found</h1>
+                    <p>Sorry, we couldn't find that book. Please go back to the library.</p>
+                `;
+                return;
+            }
+
+            // Fill in the page
+            document.title = `${book.title} - Tales & Books Shelf`;
+            document.getElementById('story-cover').src = book.cover;
+            document.getElementById('story-cover').alt = `${book.title} Cover`;
+            document.getElementById('story-title').textContent = book.title;
+            document.getElementById('story-author').textContent = `By ${book.author}`;
+            document.getElementById('story-genre').textContent = `Genre: ${book.genre}`;
+            document.getElementById('chapter-title').textContent = book.chapter;
+            document.getElementById('story-text').innerHTML = `<p>${book.story}</p>`;
+        });
+    </script>
+</body>
+</html>
